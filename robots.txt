@@ -1,0 +1,7 @@
+ser-agent: *   # directed to all spiders, not just Scooter
+Disallow: /images
+Disallow: /shared
+Disallow: /stats
+Disallow: /scripts
+Sitemap: http://www.vividdream.net/sitemap.xml
+

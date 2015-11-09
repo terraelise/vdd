@@ -150,16 +150,16 @@ a {
         .transition(all @ani-duration);
         &:hover, &:focus {
             text-decoration: underline;
-	        .text-standard;
+	        .text-purple;
         }
     }
     &.no-hover {
         text-decoration: none;
         .text-standard;
-        &:hover, &:focus {
-            text-decoration: none;
-            .text-standard;
-        }
+    }
+    &.no-link {
+        cursor: text;
+        pointer-events: none;
     }
 }
 h1, h2, h3 {

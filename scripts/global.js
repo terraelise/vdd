@@ -74,10 +74,6 @@ window.onload = function() {
 	        addClass(document.getElementById("header"), "hidden")
 	    }, 2000);
 	}
-	//var elList = document.getElementById("content").getElementsByClassName("section-head");
-	//for (var i = 0; i < elList.length; i++) {
-	//    addClass(elList[i], "text-reverse");
-	//}
 	positionSectionHeaders();
 	var elList = document.getElementById("sectionNav").getElementsByClassName("section-head");
 	for (var i = 0; i < elList.length; i++) {
@@ -111,7 +107,7 @@ function positionSectionHeaders() {
         var getTop = sectionEl.offsetTop - scrollTop;
         var minTop = setHeight * (getSectionNum - 1);
         var maxTop = winHeight - (setHeight * (elList.length - (getSectionNum - 1)));
-        if (getTop < minTop) {
+        if (getTop < minTop && winHeight > 400) { //otherwise the top just takes away too much of the height
             getTop = minTop;
             elList[i].style.display = "block";
         } else if (getTop > maxTop) {

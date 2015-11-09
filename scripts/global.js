@@ -74,18 +74,18 @@ window.onload = function() {
 	        addClass(document.getElementById("header"), "hidden")
 	    }, 2000);
 	}
-	var elList = document.getElementById("content").getElementsByClassName("section-head");
-	for (var i = 0; i < elList.length; i++) {
-	    addClass(elList[i], "text-reverse");
-	}
-	document.getElementById("sectionNav").style.display = "block";
+	//var elList = document.getElementById("content").getElementsByClassName("section-head");
+	//for (var i = 0; i < elList.length; i++) {
+	//    addClass(elList[i], "text-reverse");
+	//}
 	positionSectionHeaders();
-	elList = document.getElementById("sectionNav").getElementsByClassName("section-head");
+	var elList = document.getElementById("sectionNav").getElementsByClassName("section-head");
 	for (var i = 0; i < elList.length; i++) {
 	    addListener(elList[i], "click", function () {
 	        var sectionID = this.id.replace("head", "");
 	        var getSectionNum = sectionID.replace("section", "");
-	        window.scrollTo(0, document.getElementById(sectionID).getElementsByClassName("section-head")[0].offsetTop - (this.offsetHeight * (getSectionNum - 1)));
+	        var sectionEl = document.getElementById(sectionID).getElementsByClassName("section-head")[0];
+	        window.scrollTo(0, sectionEl.offsetTop - (sectionEl.offsetHeight * (getSectionNum - 1)));
 	    });
 	}
 };
@@ -100,23 +100,29 @@ window.onscroll = function () {
 
 function positionSectionHeaders() {
     var winHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+    var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     var elList = document.getElementById("sectionNav").getElementsByClassName("section-head");
-    document.getElementById("content").style.paddingTop = (winHeight - (elList[0].offsetHeight * (elList.length - 1))) + "px";
     for (var i = 0; i < elList.length; i++) {
         var sectionID = elList[i].id.replace("head", "");
         var getSectionNum = sectionID.replace("section", "");
         var sectionEl = document.getElementById(sectionID).getElementsByClassName("section-head")[0];
-        var getTop = sectionEl.offsetTop - window.scrollY;
-        var minTop = elList[i].offsetHeight * (getSectionNum - 1);
-        var maxTop = winHeight - (elList[i].offsetHeight * (elList.length - (getSectionNum - 1)));
+        var setHeight = sectionEl.offsetHeight;
+        document.getElementById("content").style.paddingTop = (winHeight - (setHeight * (elList.length - 1)) + 5) + "px";
+        var getTop = sectionEl.offsetTop - scrollTop;
+        var minTop = setHeight * (getSectionNum - 1);
+        var maxTop = winHeight - (setHeight * (elList.length - (getSectionNum - 1)));
         if (getTop < minTop) {
             getTop = minTop;
-        }
-        if (getTop > maxTop) {
+            elList[i].style.display = "block";
+        } else if (getTop > maxTop) {
             getTop = maxTop;
+            elList[i].style.display = "block";
+        } else {
+            elList[i].style.display = "none";
         }
         elList[i].style.top = getTop + "px";
         elList[i].style.left = sectionEl.offsetLeft + "px";
         elList[i].style.width = sectionEl.offsetWidth + "px";
+        elList[i].style.height = setHeight + "px";
     }
 }
